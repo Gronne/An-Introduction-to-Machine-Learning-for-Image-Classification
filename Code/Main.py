@@ -64,17 +64,21 @@ DataVisualiser.plot2dData(orl_img_PCA, labels=orl_lbl)
 #Full dimensionality
 model_MNIST = NearestClassifiers.ClassCentroid.train(mnist_img_train, mnist_lbl_train)
 accuracy_MNIST = NearestClassifiers.ClassCentroid.test(model_MNIST, mnist_img_test, mnist_lbl_test)
+print(f"MNIST Full Accuracy: {accuracy_MNIST}")
 #PCA applied
 model_MNIST_PCA = NearestClassifiers.ClassCentroid.train(mnist_img_train_PCA, mnist_lbl_train)
 accuracy_MNIST_PCA = NearestClassifiers.ClassCentroid.test(model_MNIST_PCA, mnist_img_test_PCA, mnist_lbl_test)
+print(f"MNIST PCA Accuracy: {accuracy_MNIST_PCA}")
 
 #---------ORL---------
 #Full dimensionality
 model_ORL = NearestClassifiers.ClassCentroid.train(orl_img, orl_lbl)
 accuracy_ORL = NearestClassifiers.ClassCentroid.test(model_ORL, orl_img, orl_lbl)
+print(f"ORL Full Accuracy: {accuracy_ORL}")
 #PCA applied
 model_ORL_PCA = NearestClassifiers.ClassCentroid.train(orl_img_PCA, orl_lbl)
 accuracy_ORL_PCA = NearestClassifiers.ClassCentroid.test(model_ORL_PCA, orl_img_PCA, orl_lbl)
+print(f"ORL PCA Accuracy: {accuracy_ORL_PCA}")
 
 
 
