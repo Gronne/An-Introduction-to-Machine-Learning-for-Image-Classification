@@ -8,7 +8,6 @@ class DataVisualiser:
     def plot2dData(data_x_axis, data_y_axis = None, labels = None):
         #Split data is not already split
         if not isinstance(data_y_axis, list) and not isinstance(data_y_axis, NP.ndarray):
-            print(f"Shape: {data_x_axis.shape}")
             data_y_axis = data_x_axis[:,1]
             data_x_axis = data_x_axis[:,0]
         

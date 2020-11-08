@@ -37,7 +37,7 @@ class PrincipalComponentAnalysis:
             #Transform data
             data_transformed = np.dot(eigen_vectors.transpose(), data_centered.transpose())
 
-            #Return new dimensions
+            #Return transformed dimensions
             return data_transformed.transpose()
 
 

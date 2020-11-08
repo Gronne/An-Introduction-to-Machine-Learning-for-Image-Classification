@@ -1,10 +1,10 @@
 #------------------------- Imports --------------------------
 #Used for getting the MNIST and ORL dataset
-from HelpFunctions.DataLoaders import Datasets
+from DataManipulation.DataLoaders import Datasets
 #Used for tranforming data
-from HelpFunctions.DataTransformers import DataTransformers
+from DataManipulation.DataTransformers import DataTransformers
 #Used for visualising data
-from HelpFunctions.DataVisualisers import DataVisualiser
+from DataManipulation.DataVisualisers import DataVisualiser
 #Used to access the different algorithms
 from Algorithms import NearestClassifiers, Perceptrons
 #Used for getting the current directory (Main)
