@@ -13,8 +13,9 @@ class DataVisualiser:
         
         #Generate colors from categories given
         if isinstance(labels, list) or isinstance(labels, NP.ndarray):
-            colors = plt.cm.get_cmap('hsv', int(max(labels)+1))
-            labels = [colors(int(label)) for label in labels]
+            colors = plt.cm.get_cmap('hsv', int(len(set(labels))))
+            cat_to_color = {category: colors(index) for index, category in enumerate(set(labels))}
+            labels = [cat_to_color[label] for label in labels]
 
         #Plot data
         fig=plt.figure()
