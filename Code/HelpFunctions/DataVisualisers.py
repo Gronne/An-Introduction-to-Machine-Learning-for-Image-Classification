@@ -5,8 +5,24 @@ import numpy as NP
 
 
 class DataVisualiser:
-    def plot2dData(x_axis, y_axis = None):
-        pass 
+    def plot2dData(data_x_axis, data_y_axis = None, labels = None):
+        #Split data is not already split
+        if not isinstance(data_y_axis, list) and not isinstance(data_y_axis, NP.ndarray):
+            print(f"Shape: {data_x_axis.shape}")
+            data_y_axis = data_x_axis[:,1]
+            data_x_axis = data_x_axis[:,0]
+        
+        #Generate colors from categories given
+        if isinstance(labels, list) or isinstance(labels, NP.ndarray):
+            colors = plt.cm.get_cmap('hsv', int(max(labels)+1))
+            labels = [colors(int(label)) for label in labels]
+
+        #Plot data
+        fig=plt.figure()
+        ax=fig.add_axes([0,0,1,1])
+        ax.scatter(data_x_axis, data_y_axis, color=labels)
+        plt.show()
+
 
 
     def plotImages(images, labels = []):

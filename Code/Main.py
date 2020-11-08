@@ -37,7 +37,6 @@ mnist_img_test_PCA = DataTransformers.PCA.tranform(mnist_img_test, 2)
 orl_img_PCA = DataTransformers.PCA.tranform(orl_img, 2)
 
 
-
 #---------------------- Visualize Data ----------------------
 #------ Images ------
 #MNIST Train
@@ -46,15 +45,15 @@ DataVisualiser.plotImages(mnist_img_train[0:11], mnist_lbl_train[0:11])
 DataVisualiser.plotImages(mnist_img_test[0:9], mnist_lbl_test[0:9])
 #ORL
 DataVisualiser.plotImages(orl_img[0:9], orl_lbl[0:9])
-DataVisualiser.plotImages(orl_img[0])
 
 #------ 2D Plot -----
 #MNIST Train
-DataVisualiser.plot2dData(mnist_img_train_PCA)
+DataVisualiser.plot2dData(mnist_img_train_PCA, labels=mnist_lbl_train)
 #MNIST Test
-DataVisualiser.plot2dData(mnist_img_test_PCA)
+DataVisualiser.plot2dData(mnist_img_test_PCA, labels=mnist_lbl_test)
 #ORL
-DataVisualiser.plot2dData(orl_img_PCA)
+DataVisualiser.plot2dData(orl_img_PCA, labels=orl_lbl)
+
 
 
 
