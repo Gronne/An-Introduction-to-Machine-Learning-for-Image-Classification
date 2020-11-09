@@ -64,43 +64,74 @@ DataVisualiser.plot2dData(orl_img_PCA, labels=orl_lbl)
 #Full dimensionality
 model_MNIST = NearestClassifiers.ClassCentroid.train(mnist_img_train, mnist_lbl_train)
 accuracy_MNIST = NearestClassifiers.ClassCentroid.test(model_MNIST, mnist_img_test, mnist_lbl_test)
-print(f"MNIST Full Accuracy: {accuracy_MNIST}")
+print(f"NCCC - MNIST Full Accuracy: {accuracy_MNIST}")
 #PCA applied
 model_MNIST_PCA = NearestClassifiers.ClassCentroid.train(mnist_img_train_PCA, mnist_lbl_train)
 accuracy_MNIST_PCA = NearestClassifiers.ClassCentroid.test(model_MNIST_PCA, mnist_img_test_PCA, mnist_lbl_test)
-print(f"MNIST PCA Accuracy: {accuracy_MNIST_PCA}")
+print(f"NCCC - MNIST PCA Accuracy: {accuracy_MNIST_PCA}")
 
 #---------ORL---------
 #Full dimensionality
 model_ORL = NearestClassifiers.ClassCentroid.train(orl_img, orl_lbl)
 accuracy_ORL = NearestClassifiers.ClassCentroid.test(model_ORL, orl_img, orl_lbl)
-print(f"ORL Full Accuracy: {accuracy_ORL}")
+print(f"NCCC - ORL Full Accuracy: {accuracy_ORL}")
 #PCA applied
 model_ORL_PCA = NearestClassifiers.ClassCentroid.train(orl_img_PCA, orl_lbl)
 accuracy_ORL_PCA = NearestClassifiers.ClassCentroid.test(model_ORL_PCA, orl_img_PCA, orl_lbl)
-print(f"ORL PCA Accuracy: {accuracy_ORL_PCA}")
+print(f"NCCC - ORL PCA Accuracy: {accuracy_ORL_PCA}")
 
 
 
 
 #Exercise 2 - Nearest sub-class centroid classifier using number of subclasses in set {2, 3, 5}
 sets = [2, 3, 5]
-#----MNIST----
-model_MNIST = NearestClassifiers.SubClassCentroid.train(mnist_img_train, mnist_lbl_train, sets)
-accuracy_MNIST = NearestClassifiers.SubClassCentroid.test(model_MNIST, mnist_img_test, mnist_lbl_test)
-#-----ORL-----
-model_ORL = NearestClassifiers.SubClassCentroid.train(orl_img, orl_lbl, sets)
-accuracy_ORL = NearestClassifiers.SubClassCentroid.test(model_ORL, orl_img, orl_lbl)
+for nr_sub_classes in sets:
+    properties = {'nr_clusters': nr_sub_classes}
+    #--------MNIST--------
+    #Full dimensionality
+    model_MNIST = NearestClassifiers.SubClassCentroid.train(mnist_img_train, mnist_lbl_train, properties)
+    accuracy_MNIST = NearestClassifiers.SubClassCentroid.test(model_MNIST, mnist_img_test, mnist_lbl_test)
+    print(f"NSCCC({nr_sub_classes}) - MNIST Full Accuracy: {accuracy_MNIST}")
+    #PCA applied
+    model_MNIST_PCA = NearestClassifiers.SubClassCentroid.train(mnist_img_train_PCA, mnist_lbl_train, properties)
+    accuracy_MNIST_PCA = NearestClassifiers.SubClassCentroid.test(model_MNIST_PCA, mnist_img_test_PCA, mnist_lbl_test)
+    print(f"NSCCC({nr_sub_classes}) - MNIST PCA Accuracy: {accuracy_MNIST_PCA}")
+
+    #---------ORL---------
+    #Full dimensionality
+    model_ORL = NearestClassifiers.SubClassCentroid.train(orl_img, orl_lbl, properties)
+    accuracy_ORL = NearestClassifiers.SubClassCentroid.test(model_ORL, orl_img, orl_lbl)
+    print(f"NSCCC({nr_sub_classes}) - ORL Full Accuracy: {accuracy_ORL}")
+    #PCA applied
+    model_ORL_PCA = NearestClassifiers.SubClassCentroid.train(orl_img_PCA, orl_lbl, properties)
+    accuracy_ORL_PCA = NearestClassifiers.SubClassCentroid.test(model_ORL_PCA, orl_img_PCA, orl_lbl)
+    print(f"NSCCC({nr_sub_classes}) - ORL PCA Accuracy: {accuracy_ORL_PCA}")
+
+
 
 
 #Exercise 3 - Nearest Neighbor classifier
-neighbors = 3
-#----MNIST----
-model_MNIST = NearestClassifiers.SubClassCentroid.train(mnist_img_train, mnist_lbl_train, neighbors)
-accuracy_MNIST = NearestClassifiers.SubClassCentroid.test(model_MNIST, mnist_img_test, mnist_lbl_test)
-#-----ORL-----
-model_ORL = NearestClassifiers.SubClassCentroid.train(orl_img, orl_lbl, neighbors)
-accuracy_ORL = NearestClassifiers.SubClassCentroid.test(model_ORL, orl_img, orl_lbl)
+#--------MNIST--------
+#Full dimensionality
+model_MNIST = NearestClassifiers.Neighbor.train(mnist_img_train, mnist_lbl_train)
+accuracy_MNIST = NearestClassifiers.Neighbor.test(model_MNIST, mnist_img_test, mnist_lbl_test)
+print(f"NNC - MNIST Full Accuracy: {accuracy_MNIST}")
+#PCA applied
+model_MNIST_PCA = NearestClassifiers.Neighbor.train(mnist_img_train_PCA, mnist_lbl_train)
+accuracy_MNIST_PCA = NearestClassifiers.Neighbor.test(model_MNIST_PCA, mnist_img_test_PCA, mnist_lbl_test)
+print(f"NNC - MNIST PCA Accuracy: {accuracy_MNIST_PCA}")
+
+#---------ORL---------
+#Full dimensionality
+model_ORL = NearestClassifiers.Neighbor.train(orl_img, orl_lbl)
+accuracy_ORL = NearestClassifiers.Neighbor.test(model_ORL, orl_img, orl_lbl)
+print(f"NNC - ORL Full Accuracy: {accuracy_ORL}")
+#PCA applied
+model_ORL_PCA = NearestClassifiers.Neighbor.train(orl_img_PCA, orl_lbl)
+accuracy_ORL_PCA = NearestClassifiers.Neighbor.test(model_ORL_PCA, orl_img_PCA, orl_lbl)
+print(f"NNC - ORL PCA Accuracy: {accuracy_ORL_PCA}")
+
+
 
 
 

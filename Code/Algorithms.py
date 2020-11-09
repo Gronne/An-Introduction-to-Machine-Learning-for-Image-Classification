@@ -39,8 +39,8 @@ class NearestClassifiers:
 
 
     class SubClassCentroid:
-        def train(data_train, labels, sets):
-            return MachineLearning.train(NC_ex2, data_train, labels, sets)
+        def train(data_train, labels, properties = 1):
+            return MachineLearning.train(NC_ex2, data_train, labels, properties)
 
         def use(model, data_point):
             return MachineLearning.use(NC_ex2, model, data_point)
@@ -50,8 +50,8 @@ class NearestClassifiers:
 
 
     class Neighbor:
-        def train(data_train, labels, neighbors):
-            return MachineLearning.train(NC_ex3, data_train, labels, neighbors)
+        def train(data_train, labels):
+            return MachineLearning.train(NC_ex3, data_train, labels)
 
         def use(model, data_point):
             return MachineLearning.use(NC_ex3, model, data_point)
