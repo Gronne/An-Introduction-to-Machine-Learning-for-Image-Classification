@@ -13,12 +13,12 @@ class MachineLearning:
         model = ml_class.train(data, labels, properties)
         return model
 
-    def use(ml_class, model, data_point):
-        point_class = ml_class.use(model, data_point)
+    def use(ml_class, model, data_point, properties = None):
+        point_class = ml_class.use(model, data_point, properties)
         return point_class
 
-    def get_accuracy(ml_class, model, data_points, data_labels):
-        bool_list = [MachineLearning.use(ml_class, model, point) == label for point, label in zip(data_points, data_labels)]
+    def get_accuracy(ml_class, model, data_points, data_labels, properties = None):
+        bool_list = [MachineLearning.use(ml_class, model, point, properties) == label for point, label in zip(data_points, data_labels)]
         total_count = len(bool_list)
         count_true = bool_list.count(True)
         accuracy = count_true / total_count
@@ -50,14 +50,14 @@ class NearestClassifiers:
 
 
     class Neighbor:
-        def train(data_train, labels):
-            return MachineLearning.train(NC_ex3, data_train, labels)
+        def train(data_train, labels, properties = None):
+            return MachineLearning.train(NC_ex3, data_train, labels, properties)
 
         def use(model, data_point):
             return MachineLearning.use(NC_ex3, model, data_point)
 
-        def test(model, data_test, labels_test):
-            return MachineLearning.get_accuracy(NC_ex3, model, data_test, labels_test)
+        def test(model, data_test, labels_test, properties = None):
+            return MachineLearning.get_accuracy(NC_ex3, model, data_test, labels_test, properties)
 
 
 
