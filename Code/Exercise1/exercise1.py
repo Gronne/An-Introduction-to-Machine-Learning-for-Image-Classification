@@ -10,7 +10,7 @@ class NearestClassCentroidClassifier:
 
     def use(model, data_point, properties = None):
         #Calculate distance to each category
-        distances = [np.linalg.norm(category['coor'] - data_point.flatten()) for category in model]
+        distances = [np.linalg.norm(cluster['coor'] - data_point.flatten()) for cluster in model]
         #Find index of minimum distance
         model_index = distances.index(min(distances))
         #Get category corrosponding to minimum distance

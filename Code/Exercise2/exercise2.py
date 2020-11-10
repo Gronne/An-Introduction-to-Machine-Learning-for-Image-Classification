@@ -45,7 +45,7 @@ class NearestSubClassCentroidClassifier:
         return [point.flatten() for point in points]
 
 
-    def _k_mean_clustering(data, nr_clusters, iterations = 1):
+    def _k_mean_clustering(data, nr_clusters, iterations = 10):
         return KMeanClustering.find_clusters(data, nr_clusters, iterations)
 
 
@@ -55,7 +55,7 @@ class NearestSubClassCentroidClassifier:
 
 class KMeanClustering:
     def find_clusters(data, nr_clusters, iterations = 10):
-        clusters = KMeanClustering._generate_centers(data, nr_clusters)
+        clusters = KMeanClustering._generate_random_centers(data, nr_clusters)
         for _ in range(iterations):
             #Attach point to the closest cluster  
             clusters_points = KMeanClustering._attach_points_to_clusters(data, clusters)
@@ -64,7 +64,7 @@ class KMeanClustering:
         return clusters
 
     
-    def _generate_centers(data, nr_clusters):
+    def _generate_random_centers(data, nr_clusters):
         nr_of_dimensions = data[0].shape
         return [np.random.random_sample(size=(nr_of_dimensions))*np.max(data) for _ in range(nr_clusters)]
 

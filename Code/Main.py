@@ -114,7 +114,7 @@ for nr_sub_classes in sets:
 
 
 #Exercise 3 - Nearest Neighbor classifier
-properties = {'neighbors': 5, 'density': 0.005} #Hyper parametre: Distance function, neighbors, density, density function, strength function
+properties = {'neighbors': 10, 'density': 0.001} #Hyper parametre: Distance function, neighbors, density, density function, strength function
 #--------MNIST--------
 #Full dimensionality
 model_MNIST = NearestClassifiers.Neighbor.train(mnist_img_train, mnist_lbl_train, properties)
