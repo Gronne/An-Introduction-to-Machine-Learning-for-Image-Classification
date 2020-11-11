@@ -4,7 +4,6 @@ import random
 
 
 class NearestNeighborClassifier:
-    count = 0
     def train(data, labels, properties = None):
         if isinstance(properties, type(None)):
             properties = {'density': 1}
@@ -20,9 +19,6 @@ class NearestNeighborClassifier:
 
 
     def use(model, data_point, properties = None):
-        NearestNeighborClassifier.count += 1
-        if NearestNeighborClassifier.count % 100 == 0:
-            print(NearestNeighborClassifier.count)
         #Set to one neighbor if nothing have been set
         if isinstance(properties, type(None)):
             properties = {'neighbors': 1}
@@ -61,5 +57,4 @@ class NearestNeighborClassifier:
         nr_of_new_point = nr_of_new_points_per_category * nr_of_categories
         if nr_of_new_point < 100: 
             nr_of_new_point = nr_of_points if nr_of_points < 100 else 100
-        print(f"Nr of points: {nr_of_new_point}")
         return nr_of_new_point

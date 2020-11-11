@@ -4,8 +4,8 @@ from Exercise2.exercise2 import NearestSubClassCentroidClassifier as NC_ex2
 from Exercise3.exercise3 import NearestNeighborClassifier as NC_ex3
 
 #Perception algorithms
-from Exercise4.exercise4 import Perceptron as Perceptron_ex4
-from Exercise5.exercise5 import Perceptron as Perceptron_ex5
+from Exercise4.exercise4 import PerceptronBackpropogation as P_ex4
+from Exercise5.exercise5 import LeastSquareSolution as P_ex5
 
 
 class MachineLearning:
@@ -65,22 +65,22 @@ class NearestClassifiers:
 
 class Perceptrons:
     class Backpropagation(MachineLearning):
-        def train(data_train, labels):
-            return MachineLearning.train(Perceptron_ex4, data_train, labels)
+        def train(data_train, labels, properties):
+            return MachineLearning.train(P_ex4, data_train, labels, properties)
 
         def use(model, data_point):
-            return MachineLearning.use(Perceptron_ex4, model, data_point)
+            return MachineLearning.use(P_ex4, model, data_point)
 
         def test(model, data_test, labels_test):
-            return MachineLearning.get_accuracy(Perceptron_ex4, model, data_test, labels_test)
+            return MachineLearning.get_accuracy(P_ex4, model, data_test, labels_test)
 
 
     class LeastSquare(MachineLearning):
         def train(data_train, labels):
-            return MachineLearning.train(Perceptron_ex5, data_train, labels)
+            return MachineLearning.train(P_ex5, data_train, labels)
 
         def use(model, data_point):
-            return MachineLearning.use(Perceptron_ex5, model, data_point)
+            return MachineLearning.use(P_ex5, model, data_point)
 
         def test(model, data_test, labels_test):
-            return MachineLearning.get_accuracy(Perceptron_ex5, model, data_test, labels_test)
+            return MachineLearning.get_accuracy(P_ex5, model, data_test, labels_test)
