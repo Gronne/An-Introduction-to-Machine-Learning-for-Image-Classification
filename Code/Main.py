@@ -171,23 +171,23 @@ print(f"PB - ORL PCA Accuracy: {accuracy_ORL_PCA}")
 
 
 
-# #Exercise 5 - Perceptron trained using MSE (least squares solution)
-# #--------MNIST--------
-# #Full dimensionality
-# model_MNIST, _ = Perceptrons.LeastSquare.train(mnist_img_train, mnist_lbl_train)
-# accuracy_MNIST, _ = Perceptrons.LeastSquare.test(model_MNIST, mnist_img_test, mnist_lbl_test)
-# print(f"PLS - MNIST Full Accuracy: {accuracy_MNIST}")
-# #PCA applied
-# model_MNIST_PCA, _ = Perceptrons.LeastSquare.train(mnist_img_train_PCA, mnist_lbl_train)
-# accuracy_MNIST_PCA, _ = Perceptrons.LeastSquare.test(model_MNIST_PCA, mnist_img_test_PCA, mnist_lbl_test)
-# print(f"PLS - MNIST PCA Accuracy: {accuracy_MNIST_PCA}")
+#Exercise 5 - Perceptron trained using MSE (least squares solution)
+#--------MNIST--------
+#Full dimensionality
+model_MNIST, _ = Perceptrons.LeastSquare.train(mnist_img_train, mnist_lbl_train)
+accuracy_MNIST, _ = Perceptrons.LeastSquare.test(model_MNIST, mnist_img_test, mnist_lbl_test)
+print(f"PLS - MNIST Full Accuracy: {accuracy_MNIST}")
+#PCA applied
+model_MNIST_PCA, _ = Perceptrons.LeastSquare.train(mnist_img_train_PCA, mnist_lbl_train)
+accuracy_MNIST_PCA, _ = Perceptrons.LeastSquare.test(model_MNIST_PCA, mnist_img_test_PCA, mnist_lbl_test)
+print(f"PLS - MNIST PCA Accuracy: {accuracy_MNIST_PCA}")
 
-# #---------ORL---------
-# #Full dimensionality
-# model_ORL, _ = Perceptrons.LeastSquare.train(orl_img_train, orl_lbl_train)
-# accuracy_ORL, _ = Perceptrons.LeastSquare.test(model_ORL, orl_img_test, orl_lbl_test)
-# print(f"PLS - ORL Full Accuracy: {accuracy_ORL}")
-# #PCA applied
-# model_ORL_PCA, _ = Perceptrons.LeastSquare.train(orl_img_train_PCA, orl_lbl_train)
-# accuracy_ORL_PCA, _ = Perceptrons.LeastSquare.test(model_ORL_PCA, orl_img_test_PCA, orl_lbl_test)
-# print(f"PLS - ORL PCA Accuracy: {accuracy_ORL_PCA}")
+#---------ORL---------
+#Full dimensionality
+model_ORL, _ = Perceptrons.LeastSquare.train(orl_img_train, orl_lbl_train)
+accuracy_ORL, _ = Perceptrons.LeastSquare.test(model_ORL, orl_img_test, orl_lbl_test)
+print(f"PLS - ORL Full Accuracy: {accuracy_ORL}")
+#PCA applied
+model_ORL_PCA, _ = Perceptrons.LeastSquare.train(orl_img_train_PCA, orl_lbl_train)
+accuracy_ORL_PCA, _ = Perceptrons.LeastSquare.test(model_ORL_PCA, orl_img_test_PCA, orl_lbl_test)
+print(f"PLS - ORL PCA Accuracy: {accuracy_ORL_PCA}")
