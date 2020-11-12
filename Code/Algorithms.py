@@ -7,22 +7,45 @@ from Exercise3.exercise3 import NearestNeighborClassifier as NC_ex3
 from Exercise4.exercise4 import PerceptronBackpropogation as P_ex4
 from Exercise5.exercise5 import LeastSquareSolution as P_ex5
 
+#Import to measure execution time
+import time
+#import to check if model is a class
+import inspect
+
 
 class MachineLearning:
     def train(ml_class, data, labels, properties = None):
+        #Start time for stat measurement
+        start_time = time.time()
+        #Train model
         model = ml_class.train(data, labels, properties)
-        return model
+        #Calculate stats
+        train_stats = {'time': time.time() - start_time}
+        #Return model and stats
+        return model, train_stats
 
     def use(ml_class, model, data_point, properties = None):
+        #Use the trained model to find a label
         point_class = ml_class.use(model, data_point, properties)
         return point_class
 
     def get_accuracy(ml_class, model, data_points, data_labels, properties = None):
+        #Check if user have split model and stats
+        if isinstance(model, tuple) and len(model) == 2 and isinstance(model[1], type({})):
+            model = model[0]
+        #Start timer used to claculate stats
+        start_time = time.time()
+        #Call 'use' for each datapoint and match it with a label
         bool_list = [MachineLearning.use(ml_class, model, point, properties) == label for point, label in zip(data_points, data_labels)]
+        #Calcualte accuracy
         total_count = len(bool_list)
         count_true = bool_list.count(True)
         accuracy = count_true / total_count
-        return accuracy
+        #Calculate stats
+        time_diff = time.time() - start_time
+        test_stat = {'time': time_diff / len(data_points), 'score': accuracy, 'full_time': time_diff }
+        #Return accuracy and stats
+        return accuracy, test_stat
 
 
 

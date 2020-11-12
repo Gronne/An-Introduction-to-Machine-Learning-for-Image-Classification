@@ -169,5 +169,5 @@ class NeuralNetworkModel:
             #Find relevant indexes
             delta_index = -(index + 1)
             #Adjust weight
-            self._weights[index] += forward_layer_outputs[index].transpose().dot(backward_deltas[delta_index])
+            self._weights[index] = np.add(self._weights[index], forward_layer_outputs[index].transpose().dot(backward_deltas[delta_index]))
 
