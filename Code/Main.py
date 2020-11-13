@@ -75,7 +75,9 @@ model_MNIST_PCA = NearestClassifiers.ClassCentroid.train(mnist_img_train_PCA, mn
 accuracy_MNIST_PCA = NearestClassifiers.ClassCentroid.test(model_MNIST_PCA, mnist_img_test_PCA, mnist_lbl_test)
 print(f"NCCC - MNIST PCA Accuracy: {accuracy_MNIST_PCA[1]}")
 #Visualize score
-DataVisualiser.plotStats([model_MNIST, model_MNIST_PCA], [accuracy_MNIST, accuracy_MNIST_PCA], normalize=True) 
+DataVisualiser.plotStats.spiderAll([model_MNIST, model_MNIST_PCA], [accuracy_MNIST, accuracy_MNIST_PCA], normalize=True)
+DataVisualiser.plotStats.columnPrecentage([accuracy_MNIST, accuracy_MNIST_PCA]) 
+DataVisualiser.plotStats.spiderPrecentage([accuracy_MNIST])
 
 #---------ORL---------
 #Full dimensionality
@@ -87,7 +89,7 @@ model_ORL_PCA, o_test_stats = NearestClassifiers.ClassCentroid.train(orl_img_tra
 accuracy_ORL_PCA, op_test_stats = NearestClassifiers.ClassCentroid.test(model_ORL_PCA, orl_img_test_PCA, orl_lbl_test)
 print(f"NCCC - ORL PCA Accuracy: {accuracy_ORL_PCA}")
 #Visualize score
-DataVisualiser.plotStats([o_train_stats, o_test_stats], [op_train_stats, op_test_stats], normalize=True)
+DataVisualiser.plotStats.spiderAll([o_train_stats, o_test_stats], [op_train_stats, op_test_stats], normalize=True)
 
 
 

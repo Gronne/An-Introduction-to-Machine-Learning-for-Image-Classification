@@ -57,67 +57,69 @@ class DataVisualiser:
         plt.show()
 
 
-    def plotStats(train_stats, test_stats = None, normalize = False, title = "Stats"):
-        #Define dimension names
-        dimension_names = ['Accuracy', 'Training time', 'Prediction time']
-        #Check if data is split and if so, combine it
-        data = DataVisualiser._spider_setup_data(train_stats, test_stats)
-        #Normalize data
-        if normalize == True:
-            data, max_values = DataVisualiser._normalize_data(data)
-            dimension_names = ["\n" + name + "\n" + str(round(max_values[count], 6)) for count, name in enumerate(dimension_names)]
-        #Number of dimensions
-        nr_dimensions = len(dimension_names)
-        #Create spider plot object
-        theta = SpiderPlot.spider_factory(nr_dimensions)
-        #Setup spider plot
-        SpiderPlot.plot(theta, title, dimension_names, data)
-        #Plot
-        plt.show()
+    class plotStats:
+        def spiderAll(train_stats, test_stats = None, normalize = False, title = "All Stats"):
+            #Check if data is split and if so combine it
+            data = DataVisualiser.plotStats._setup_data(train_stats, test_stats, train_fields=["time"], test_fields=["score", "time"])
+            #Define dimension names
+            dimension_names = ['Training time', 'Accuracy', 'Prediction time']
+            #Plot spider
+            SpiderPlot.plot(data, dimension_names, normalize, title)
+            #Plot
+            plt.show()
 
-    def _spider_setup_data(train_stats, test_stats):
-        #Check if None
-        if isinstance(test_stats, type(None)):
-            return train_stats
-        #Check if list or dict
-        if isinstance(train_stats, type({})):
-            DataVisualiser._spider_setup_data(dimension_names, [train_stats], [test_stats])
-        #Check if user have split model and stats
-        train_stats = [stat if DataVisualiser._check_if_is_splitted(stat) else stat[1] for stat in train_stats]
-        test_stats = [stat if DataVisualiser._check_if_is_splitted(stat) else stat[1] for stat in test_stats]
-        #Check if the same amounts of training and test stats are given
-        if len(train_stats) != len(test_stats):
-            raise Exception("The same amount of training stats and test stats must be given")
-        #Combine stat data
-        data = [ [test_stats[count]['score'], train_stats[count]['time'], test_stats[count]['time']] for count in range(len(train_stats))]
-        #Call Spiderplot with combines data
-        return data
+        def spiderPrecentage(test_stats, normalize = False, title = "Precentage Stats"):
+            #Check if data is split and if so combine it
+            data = DataVisualiser.plotStats._setup_data(test_stats, test_stats, train_fields=[], test_fields=["detailed_score"])
+            #Get dimension names
+            dimension_names = [key for key in data[0][0]]
+            #Convert from map to list
+            data = [[row[0][key] for key in dimension_names] for row in data]
+            #Plot spider
+            SpiderPlot.plot(data, dimension_names, normalize, title)
+            #Plot
+            plt.show()
+
+        def columnPrecentage(data, title = "Precentage Stats"):
+            #Check if data is split and if so combine it
+            data = DataVisualiser.plotStats._setup_data(data, data, train_fields=[], test_fields=["detailed_score"])
+            #Get dimension names
+            dimension_names = [key for key in data[0][0]]
+            #Convert from map to list
+            data = [[row[0][key] for key in dimension_names] for row in data]
+            #Create plot
+            column_diagram = ColumnPlot(dimension_names, title)
+            #Insert data
+            column_diagram.plot(data)
+            #Show plot
+            plt.show()
+
+
+        def _setup_data(train_stats, test_stats, train_fields, test_fields):
+            #Check if None
+            if isinstance(test_stats, type(None)):
+                return train_stats
+            #Check if list or dict
+            if isinstance(train_stats, type({})):
+                DataVisualiser.plotStats._spider_setup_data([train_stats], [test_stats])
+            #Check if user have split model and stats
+            train_stats = [stat if DataVisualiser.plotStats._check_if_splitted(stat) else stat[1] for stat in train_stats]
+            test_stats = [stat if DataVisualiser.plotStats._check_if_splitted(stat) else stat[1] for stat in test_stats]
+            print
+            #Check if the same amounts of training and test stats are given
+            if len(train_stats) != len(test_stats):
+                raise Exception("The same amount of training stats and test stats must be given")
+            #Combine the data with the fields specified
+            combined_data = []
+            for count in range(len(train_stats)):
+                train = [train_stats[count][field] for field in train_fields]
+                test = [test_stats[count][field] for field in test_fields]
+                combined_data.append(train+test)
+            #Call Spiderplot with combines data
+            return combined_data
     
-    def _check_if_is_splitted(model):
-        return not(isinstance(model, tuple) and len(model) == 2 and isinstance(model[1], type({})))
-
-
-    def _normalize_data(data):
-        max_values = []
-        #Normalize
-        for column_count in range(len(data[0])):
-            #Get dependent data
-            column = [data[row_count][column_count] for row_count in range(len(data))]
-            #Find max value to normalize with
-            max_value = max(column)
-            max_values.append(max_value)
-            #Normalize dependent data and put into new list
-            for row_count in range(len(data)): data[row_count][column_count] /= max_value
-        return data, max_values
-
-
-    def plotColumnDiagram(dimension_names, data, individual_scaling = False):
-        #Create plot
-        column_diagram = ColumnPlot(dimension_names, individual_scaling)
-        #Insert data
-        column_diagram.plot(data)
-        #Show plot
-        plt.show()
+        def _check_if_splitted(model):
+            return not(isinstance(model, tuple) and len(model) == 2 and isinstance(model[1], type({})))
 
 
 
@@ -129,7 +131,34 @@ class DataVisualiser:
 
 #https://stackoverflow.com/questions/52910187/how-to-make-a-polygon-radar-spider-chart-in-python
 class SpiderPlot:
-    def plot(factory, title, names, data):
+    def plot(data, dimension_names, normalize = False, title = "Stats"):
+        #Insert zero data row
+        data.append([0 for _ in range(len(data[0]))])
+        #Normalize data
+        if normalize == True:
+            data, max_values = SpiderPlot._normalize_data(data)
+            dimension_names = ["\n" + name + "\n" + str(round(max_values[count], 6)) for count, name in enumerate(dimension_names)]
+        #Number of dimensions
+        nr_dimensions = len(dimension_names)
+        #Create spider plot object
+        theta = SpiderPlot._spider_factory(nr_dimensions)
+        #Setup spider plot
+        SpiderPlot._plot(theta, title, dimension_names, data)
+
+    def _normalize_data(data):
+            max_values = []
+            #Normalize
+            for column_count in range(len(data[0])):
+                #Get dependent data
+                column = [data[row_count][column_count] for row_count in range(len(data))]
+                #Find max value to normalize with
+                max_value = max(column)
+                max_values.append(max_value)
+                #Normalize dependent data and put into new list
+                for row_count in range(len(data)): data[row_count][column_count] /= max_value
+            return data, max_values
+
+    def _plot(factory, title, names, data):
         #Create plot template
         fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(projection='radar'))
         fig.subplots_adjust(top=0.85, bottom=0.05)
@@ -142,7 +171,7 @@ class SpiderPlot:
         ax.set_varlabels(names)
         
     
-    def spider_factory(num_vars, frame='polygon'):
+    def _spider_factory(num_vars, frame='polygon'):
         # calculate evenly-spaced axis angles
         theta = np.linspace(0, 2*np.pi, num_vars, endpoint=False)
 
@@ -223,29 +252,35 @@ class SpiderPlot:
 
 
 class ColumnPlot:
-    def __init__(self, column_names, individual_scaling):
-        fig, ax = plt.subplots()
+    def __init__(self, column_names, title = "Column Diagram"):
+        #Create the figure
+        fig, ax = plt.subplots(figsize=(int(math.log(len(column_names))*4), 6))
         self._fig = fig  
         self._ax = ax
+        #Define the column space
         self._x = np.arange(len(column_names))
-        self._width = 1/len(column_names)
-        #Setup plot
+        self._width = 1
+        #Set name of vertical axis
         self._ax.set_ylabel('Scores')
-        self._ax.set_title('Column diagram')
+        #Set title
+        self._ax.set_title(title)
+        #Set vertical names and positions
         self._ax.set_xticks(self._x)
         self._ax.set_xticklabels(column_names)
         self._ax.legend()
 
 
     def plot(self, data):
+        #Redefine width based on data
+        self._width = 1/(len(data)+1)
         #Set each column rectangle
-        rects = [self._ax.bar(self._x + (self._width*count), d, self._width) for count, d in enumerate(data)]
+        rects = [self._ax.bar(self._x + (self._width*count), [round(point, 6) for point in d], self._width) for count, d in enumerate(data)]
         #plot
         for rect in rects:
             for point in rect:
                 height = point.get_height()
                 self._ax.annotate('{}'.format(height),
-                            xy=(point.get_x() + point.get_width() / 2, height),
+                            xy=(point.get_x() + point.get_width(), height),
                             xytext=(0, 3),  # 3 points vertical offset
                             textcoords="offset points",
                             ha='center', va='bottom')

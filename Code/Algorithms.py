@@ -36,16 +36,28 @@ class MachineLearning:
         #Start timer used to claculate stats
         start_time = time.time()
         #Call 'use' for each datapoint and match it with a label
-        bool_list = [MachineLearning.use(ml_class, model, point, properties) == label for point, label in zip(data_points, data_labels)]
-        #Calcualte accuracy
-        total_count = len(bool_list)
-        count_true = bool_list.count(True)
-        accuracy = count_true / total_count
-        #Calculate stats
+        prediction_list = [{'label': label, 'prediction': MachineLearning.use(ml_class, model, point, properties)} for point, label in zip(data_points, data_labels)]
+        #Stop time
         time_diff = time.time() - start_time
-        test_stat = {'time': time_diff / len(data_points), 'score': accuracy, 'full_time': time_diff }
+        #Calcualte overall score
+        total_count = len(prediction_list)
+        count_true = [prediction['label'] == prediction['prediction'] for prediction in prediction_list].count(True)
+        accuracy = count_true / total_count
+        #Calculate score for each category
+        category_scores = {label: MachineLearning._label_score(prediction_list, label) for label in set(data_labels)}
+        #Calculate stats
+        test_stat = {'time': time_diff / len(data_points), 'score': accuracy, 'detailed_score': category_scores, 'full_time': time_diff }
         #Return accuracy and stats
         return accuracy, test_stat
+
+    def _label_score(predictions, label):
+        #get label predictions
+        label_prediction = [prediction['label'] == prediction['prediction'] for prediction in predictions if prediction['label'] == label]
+        #Calculate score
+        label_score = label_prediction.count(True) / len(label_prediction)
+        #Return score
+        return label_score
+
 
 
 
