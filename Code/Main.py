@@ -67,27 +67,27 @@ DataVisualiser.plot2dData(orl_img_train_PCA, labels=orl_lbl_train)
 #Exercise 1 - Nearest Class centroid classifier
 #--------MNIST--------
 #Full dimensionality
-model_MNIST, m_train_stats = NearestClassifiers.ClassCentroid.train(mnist_img_train, mnist_lbl_train)
-accuracy_MNIST, m_test_stats = NearestClassifiers.ClassCentroid.test(model_MNIST, mnist_img_test, mnist_lbl_test)
-print(f"NCCC - MNIST Full Accuracy: {accuracy_MNIST}")
+model_MNIST = NearestClassifiers.ClassCentroid.train(mnist_img_train, mnist_lbl_train)
+accuracy_MNIST = NearestClassifiers.ClassCentroid.test(model_MNIST, mnist_img_test, mnist_lbl_test)
+print(f"NCCC - MNIST Full Accuracy: {accuracy_MNIST[1]}")
 #PCA applied
-model_MNIST_PCA, mp_train_stats = NearestClassifiers.ClassCentroid.train(mnist_img_train_PCA, mnist_lbl_train)
-accuracy_MNIST_PCA, mp_test_stats = NearestClassifiers.ClassCentroid.test(model_MNIST_PCA, mnist_img_test_PCA, mnist_lbl_test)
-print(f"NCCC - MNIST PCA Accuracy: {accuracy_MNIST_PCA}")
+model_MNIST_PCA = NearestClassifiers.ClassCentroid.train(mnist_img_train_PCA, mnist_lbl_train)
+accuracy_MNIST_PCA = NearestClassifiers.ClassCentroid.test(model_MNIST_PCA, mnist_img_test_PCA, mnist_lbl_test)
+print(f"NCCC - MNIST PCA Accuracy: {accuracy_MNIST_PCA[1]}")
 #Visualize score
-DataVisualiser.plotStats([m_train_stats, mp_train_stats], [m_test_stats, mp_test_stats], normalize=True)
+DataVisualiser.plotStats([model_MNIST, model_MNIST_PCA], [accuracy_MNIST, accuracy_MNIST_PCA], normalize=True) 
 
 #---------ORL---------
 #Full dimensionality
 model_ORL, o_train_stats = NearestClassifiers.ClassCentroid.train(orl_img_train, orl_lbl_train)
-accuracy_ORL, o_test_stats = NearestClassifiers.ClassCentroid.test(model_ORL, orl_img_test, orl_lbl_test)
+accuracy_ORL, op_train_stats = NearestClassifiers.ClassCentroid.test(model_ORL, orl_img_test, orl_lbl_test)
 print(f"NCCC - ORL Full Accuracy: {accuracy_ORL}")
 #PCA applied
-model_ORL_PCA, op_train_stats = NearestClassifiers.ClassCentroid.train(orl_img_train_PCA, orl_lbl_train)
+model_ORL_PCA, o_test_stats = NearestClassifiers.ClassCentroid.train(orl_img_train_PCA, orl_lbl_train)
 accuracy_ORL_PCA, op_test_stats = NearestClassifiers.ClassCentroid.test(model_ORL_PCA, orl_img_test_PCA, orl_lbl_test)
 print(f"NCCC - ORL PCA Accuracy: {accuracy_ORL_PCA}")
 #Visualize score
-DataVisualiser.plotStats([o_train_stats, op_train_stats], [o_test_stats, op_test_stats], normalize=True)
+DataVisualiser.plotStats([o_train_stats, o_test_stats], [op_train_stats, op_test_stats], normalize=True)
 
 
 
@@ -97,9 +97,9 @@ for nr_sub_classes in sets:
     properties = {'nr_clusters': nr_sub_classes}
     #--------MNIST--------
     #Full dimensionality
-    model_MNIST, _ = NearestClassifiers.SubClassCentroid.train(mnist_img_train, mnist_lbl_train, properties)
-    accuracy_MNIST, _ = NearestClassifiers.SubClassCentroid.test(model_MNIST, mnist_img_test, mnist_lbl_test)
-    print(f"NSCCC({nr_sub_classes}) - MNIST Full Accuracy: {accuracy_MNIST}")
+    model_MNIST = NearestClassifiers.SubClassCentroid.train(mnist_img_train, mnist_lbl_train, properties)
+    accuracy_MNIST = NearestClassifiers.SubClassCentroid.test(model_MNIST, mnist_img_test, mnist_lbl_test)
+    print(f"NSCCC({nr_sub_classes}) - MNIST Full Accuracy: {model_MNIST[1]}, {accuracy_MNIST}")
     #PCA applied
     model_MNIST_PCA, _ = NearestClassifiers.SubClassCentroid.train(mnist_img_train_PCA, mnist_lbl_train, properties)
     accuracy_MNIST_PCA, _ = NearestClassifiers.SubClassCentroid.test(model_MNIST_PCA, mnist_img_test_PCA, mnist_lbl_test)
@@ -122,9 +122,9 @@ for nr_sub_classes in sets:
 properties = {'neighbors': 10, 'density': 0.001} #Hyper parametre: Distance function, neighbors, density, density function, strength function
 #--------MNIST--------
 #Full dimensionality
-model_MNIST, _ = NearestClassifiers.Neighbor.train(mnist_img_train, mnist_lbl_train, properties)
-accuracy_MNIST, _ = NearestClassifiers.Neighbor.test(model_MNIST, mnist_img_test, mnist_lbl_test, properties)
-print(f"NNC - MNIST Full Accuracy: {accuracy_MNIST}")
+model_MNIST = NearestClassifiers.Neighbor.train(mnist_img_train, mnist_lbl_train, properties)
+accuracy_MNIST = NearestClassifiers.Neighbor.test(model_MNIST, mnist_img_test, mnist_lbl_test, properties)
+print(f"NNC - MNIST Full Accuracy: {model_MNIST[1]}, {accuracy_MNIST}")
 #PCA applied
 model_MNIST_PCA, _ = NearestClassifiers.Neighbor.train(mnist_img_train_PCA, mnist_lbl_train, properties)
 accuracy_MNIST_PCA, _ = NearestClassifiers.Neighbor.test(model_MNIST_PCA, mnist_img_test_PCA, mnist_lbl_test, properties)
@@ -149,9 +149,9 @@ print(f"NNC - ORL PCA Accuracy: {accuracy_ORL_PCA}")
 properties = {'hidden_layers': [{'nodes': 8}, {'nodes': 16}, {'nodes': 32}], 'activation': 'sigmoid', 'epochs': 4, 'verbose': True} 
 #--------MNIST--------
 #Full dimensionality
-model_MNIST, _ = Perceptrons.Backpropagation.train(mnist_img_train[:1000], mnist_lbl_train[:1000], properties)
-accuracy_MNIST, _ = Perceptrons.Backpropagation.test(model_MNIST, mnist_img_test, mnist_lbl_test)
-print(f"PB - MNIST Full Accuracy: {accuracy_MNIST}")
+model_MNIST = Perceptrons.Backpropagation.train(mnist_img_train[:1000], mnist_lbl_train[:1000], properties)
+accuracy_MNIST = Perceptrons.Backpropagation.test(model_MNIST, mnist_img_test, mnist_lbl_test)
+print(f"PB - MNIST Full Accuracy: {model_MNIST[1]}, {accuracy_MNIST}")
 #PCA applied
 model_MNIST_PCA, _ = Perceptrons.Backpropagation.train(mnist_img_train_PCA, mnist_lbl_train, properties)
 accuracy_MNIST_PCA, _ = Perceptrons.Backpropagation.test(model_MNIST_PCA, mnist_img_test_PCA, mnist_lbl_test)
@@ -174,9 +174,9 @@ print(f"PB - ORL PCA Accuracy: {accuracy_ORL_PCA}")
 #Exercise 5 - Perceptron trained using MSE (least squares solution)
 #--------MNIST--------
 #Full dimensionality
-model_MNIST, _ = Perceptrons.LeastSquare.train(mnist_img_train, mnist_lbl_train)
-accuracy_MNIST, _ = Perceptrons.LeastSquare.test(model_MNIST, mnist_img_test, mnist_lbl_test)
-print(f"PLS - MNIST Full Accuracy: {accuracy_MNIST}")
+model_MNIST = Perceptrons.LeastSquare.train(mnist_img_train, mnist_lbl_train)
+accuracy_MNIST = Perceptrons.LeastSquare.test(model_MNIST, mnist_img_test, mnist_lbl_test)
+print(f"PLS - MNIST Full Accuracy: {model_MNIST[1]}, {accuracy_MNIST}")
 #PCA applied
 model_MNIST_PCA, _ = Perceptrons.LeastSquare.train(mnist_img_train_PCA, mnist_lbl_train)
 accuracy_MNIST_PCA, _ = Perceptrons.LeastSquare.test(model_MNIST_PCA, mnist_img_test_PCA, mnist_lbl_test)

@@ -80,14 +80,22 @@ class DataVisualiser:
         if isinstance(test_stats, type(None)):
             return train_stats
         #Check if list or dict
-        if isinstance(train_stats, type({'something': 1})):
+        if isinstance(train_stats, type({})):
             DataVisualiser._spider_setup_data(dimension_names, [train_stats], [test_stats])
+        #Check if user have split model and stats
+        train_stats = [stat if DataVisualiser._check_if_is_splitted(stat) else stat[1] for stat in train_stats]
+        test_stats = [stat if DataVisualiser._check_if_is_splitted(stat) else stat[1] for stat in test_stats]
+        #Check if the same amounts of training and test stats are given
         if len(train_stats) != len(test_stats):
             raise Exception("The same amount of training stats and test stats must be given")
         #Combine stat data
         data = [ [test_stats[count]['score'], train_stats[count]['time'], test_stats[count]['time']] for count in range(len(train_stats))]
         #Call Spiderplot with combines data
         return data
+    
+    def _check_if_is_splitted(model):
+        return not(isinstance(model, tuple) and len(model) == 2 and isinstance(model[1], type({})))
+
 
     def _normalize_data(data):
         max_values = []
