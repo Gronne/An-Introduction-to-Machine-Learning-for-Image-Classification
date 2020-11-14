@@ -5,18 +5,25 @@ import numpy as np
 class DataTransformers:
     class PCA:
         def tranform(data, dimensions):
-            return PrincipalComponentAnalysis.tranform(data, dimensions)
+            if isinstance(dimensions, int):
+                return PrincipalComponentAnalysis.tranform(data, dimensions)
+            elif isinstance(dimensions, list) or isinstance(dimensions, np.ndarray):
+                return PrincipalComponentAnalysis.transform_w_model(data, dimensions)
+            else:
+                raise Exception("Dimensions must either be a integer or a previous found model")
 
 
 
 
 
 class PrincipalComponentAnalysis:
-        def tranform(images, dimensions, normalize = False):
-            data = images.reshape((images.shape[0], images.shape[1] * images.shape[2]))
+        def tranform(data, dimensions, normalize = False):
+            #Flatten data
+            data_flattened = data.flatten()
+            data_f = data_flattened.reshape((data.shape[0], int(data_flattened.shape[0]/data.shape[0])))
             #Center data for optimal reduction
-            data_mean = data.mean(axis=0)
-            data_centered = data - data_mean
+            data_mean = data_f.mean(axis=0)
+            data_centered = data_f - data_mean
             #Calculate Covariance matrix
             co_mat = np.cov(data_centered.transpose())
             #Find eigenvalues for sort them - Smallest will be the strongest direction
@@ -32,7 +39,7 @@ class PrincipalComponentAnalysis:
             #Transform data
             data_transformed = np.dot(eigen_vectors.transpose(), data_centered.transpose())
             #Return transformed dimensions
-            return data_transformed.transpose()
+            return data_transformed.transpose(), eigen_vectors
 
 
         def _normalize_eigen_vector(eigen_values, eigen_vectors):
@@ -43,4 +50,19 @@ class PrincipalComponentAnalysis:
                 normalized_vector = vector / np.linalg.norm(vector) * value.sqrt()
                 eigen_vectors[:, index] = normalized_vector
             return eigen_vectors
+
+        
+        def transform_w_model(data, eigen_vectors):
+            #Flatten data
+            data_flattened = data.flatten()
+            data_f = data_flattened.reshape((data.shape[0], int(data_flattened.shape[0]/data.shape[0])))
+            #Center data for optimal reduction
+            data_mean = data_f.mean(axis=0)
+            data_centered = data_f - data_mean
+            #Transform data
+            data_transformed = np.dot(eigen_vectors.transpose(), data_centered.transpose())
+            #Return transformed dimensions
+            return data_transformed.transpose(), eigen_vectors
+
+
 

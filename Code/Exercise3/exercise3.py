@@ -10,7 +10,7 @@ class NearestNeighborClassifier:
         #Calculate nr of random points to choose
         nr_of_new_points = NearestNeighborClassifier._calc_nr_of_new_points(data, labels, properties['density'])
         #Get points and labels
-        jump_size = int(len(data)/nr_of_new_points)
+        jump_size = int(round(len(data)/nr_of_new_points))
         new_points = [data[index] for index in range(0, len(data), jump_size)]
         new_labels = [labels[index] for index in range(0, len(data), jump_size)]
         #Makes every random point a class

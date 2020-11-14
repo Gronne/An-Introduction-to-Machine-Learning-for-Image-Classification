@@ -58,17 +58,17 @@ class DataVisualiser:
 
 
     class plotStats:
-        def spiderAll(train_stats, test_stats = None, normalize = False, title = "All Stats"):
+        def spiderAll(train_stats, test_stats = None, normalize = False, title = "All Stats", zeros=True):
             #Check if data is split and if so combine it
             data = DataVisualiser.plotStats._setup_data(train_stats, test_stats, train_fields=["time"], test_fields=["score", "time"])
             #Define dimension names
             dimension_names = ['Training time', 'Accuracy', 'Prediction time']
             #Plot spider
-            SpiderPlot.plot(data, dimension_names, normalize, title)
+            SpiderPlot.plot(data, dimension_names, normalize, title, zeros)
             #Plot
             plt.show()
 
-        def spiderPrecentage(test_stats, normalize = False, title = "Precentage Stats"):
+        def spiderPrecentage(test_stats, normalize = False, title = "Precentage Stats", zeros=True):
             #Check if data is split and if so combine it
             data = DataVisualiser.plotStats._setup_data(test_stats, test_stats, train_fields=[], test_fields=["detailed_score"])
             #Get dimension names
@@ -76,8 +76,20 @@ class DataVisualiser:
             #Convert from map to list
             data = [[row[0][key] for key in dimension_names] for row in data]
             #Plot spider
-            SpiderPlot.plot(data, dimension_names, normalize, title)
+            SpiderPlot.plot(data, dimension_names, normalize, title, zeros)
             #Plot
+            plt.show()
+
+        def columnAll(train_stats, test_stats = None, title = "All stats"):
+            #Check if data is split and if so combine it
+            data = DataVisualiser.plotStats._setup_data(train_stats, test_stats, train_fields=['time'], test_fields=["score", "time"])
+            #Get dimension names
+            dimension_names = ["Training time", "Precision", "Prediction time"]
+            #Create plot
+            column_diagram = ColumnPlot(dimension_names, title)
+            #Insert data
+            column_diagram.plot(data)
+            #Show plot
             plt.show()
 
         def columnPrecentage(data, title = "Precentage Stats"):
@@ -131,9 +143,10 @@ class DataVisualiser:
 
 #https://stackoverflow.com/questions/52910187/how-to-make-a-polygon-radar-spider-chart-in-python
 class SpiderPlot:
-    def plot(data, dimension_names, normalize = False, title = "Stats"):
+    def plot(data, dimension_names, normalize = False, title = "Stats", zeros=True):
         #Insert zero data row
-        data.append([0 for _ in range(len(data[0]))])
+        if zeros == True:
+            data.append([0 for _ in range(len(data[0]))])
         #Normalize data
         if normalize == True:
             data, max_values = SpiderPlot._normalize_data(data)
@@ -254,7 +267,10 @@ class SpiderPlot:
 class ColumnPlot:
     def __init__(self, column_names, title = "Column Diagram"):
         #Create the figure
-        fig, ax = plt.subplots(figsize=(int(math.log(len(column_names))*4), 6))
+        figure_size = int(math.log(len(column_names))*4)
+        if figure_size < 4:
+            figure_size=4
+        fig, ax = plt.subplots(figsize=(figure_size, 6))
         self._fig = fig  
         self._ax = ax
         #Define the column space
