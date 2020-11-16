@@ -4,4 +4,4 @@ This repository is the code for the article "An Introduction to Machine Learning
 ## Setup
 Download the repository -> Run Main.py.
 
-Personal data can be used. Just use the DataLoader.py class to get the data instead. Use get_MNIST_dataset as an example of how to load the data. The data does not need to images, the implementation has been made general to work with N-dimensions.
+Personal data can be used. Just use the DataLoaders.py file in the "DataManipulation" folder to load your own data instead. Use load_mnist() function as an example of how to load the data. The data does not need to images, the implementation has been made general to work with N-dimensions.
